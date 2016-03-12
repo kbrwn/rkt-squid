@@ -24,7 +24,9 @@ acbuild port add www tcp 3128
 acbuild copy squid.conf /etc/squid/squid.conf
 
 #copy squid-aci.conf 
-acbuild copy squid-aci.conf /squid-aci.conf
+acbuild copy squid-aci.conf /conf/squid-aci.conf
+
+acbuild copy startsquid.sh /startsquid.sh
 
 #add cert for ssl
 acbuild copy squid.pem /etc/squid/squid.pem
@@ -35,6 +37,9 @@ acbuild --debug dep add quay.io/coreos/alpine-sh
 #update base
 acbuild --debug run -- apk update
 
+#install curl
+acbuild --debug run -- apk add curl
+
 #install squid
 acbuild --debug run -- apk add squid
 
@@ -43,6 +48,7 @@ acbuild --debug mount add cache /cache
 
 #keep running
 #acbuild set-exec -- /usr/sbin/squid -z && /usr/sbin/squid -N -d 1 -D
-acbuild set-exec -- /bin/sh -c 'if [ -z ${SQUID+x} ]; then echo "Starting Squid with squid.conf"; else echo "Squid is starting with squid-aci.conf" && mv squid-aci.conf /etc/squid/squid.conf; fi && chown squid /cache/ && /usr/sbin/squid -z && /usr/sbin/squid -N -d 1'
+#acbuild set-exec -- /bin/sh -c 'if [ -z ${SQUID+x} ]; then echo "Starting Squid with squid.conf"; else echo "Squid is starting with squid-aci.conf" && mv squid-aci.conf /etc/squid/squid.conf; fi && chown squid /cache/ && /usr/sbin/squid -z && /usr/sbin/squid -N -d 1'
 
+acbuild set-exec -- /startsquid.sh
 acbuild --debug write --overwrite alpine-squid.aci
