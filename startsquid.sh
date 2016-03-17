@@ -1,10 +1,10 @@
 #!/bin/sh
 
 case $SQUID in
-	aci)
+	aci|deb|rpm)
 	chown squid /cache/
 	/usr/sbin/squid -z
-	/usr/sbin/squid -f /conf/squid-${SQUID}.conf -N -d 1
+	/usr/sbin/squid -f /configs/squid-${SQUID}.conf -N -d 1
 	;;
 
 	custom)

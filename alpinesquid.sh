@@ -21,15 +21,15 @@ acbuild set-name kbrwn/alpine-squid
 acbuild port add www tcp 3128
 
 #copy configuration file from local machine
-acbuild copy squid.conf /etc/squid/squid.conf
+#acbuild copy squid.conf /etc/squid/squid.conf
 
 #copy squid-aci.conf 
-acbuild copy squid-aci.conf /conf/squid-aci.conf
+#acbuild copy squid-aci.conf /conf/squid-aci.conf
+
+acbuild copy configs/ /configs
 
 acbuild copy startsquid.sh /startsquid.sh
 
-#add cert for ssl
-acbuild copy squid.pem /etc/squid/squid.pem
 
 #add alpine base 
 acbuild --debug dep add quay.io/coreos/alpine-sh
